@@ -2,6 +2,9 @@ import jsonServer from "json-server";
 import shadazzle from "./companies/shadazzle.js";
 import fitlyfe from "./companies/fitlyfe.js";
 import socimind from "./companies/socimind.js";
+
+const PORT = process.env.PORT || 3000;
+
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults()
 server.use(middlewares);
@@ -21,5 +24,5 @@ const routerSocimind = jsonServer.router({
 });
 server.use("/api/socimind", routerSocimind);
 
-console.log(`Server starting on port: ${process.env.PORT} `)
-server.listen(process.env.PORT);
+console.log(`Server starting on port: ${PORT} `)
+server.listen(PORT);
