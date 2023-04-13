@@ -208,7 +208,7 @@ function generateProfile(id) {
 
   // Expose the features at a top level
   Object.keys(featureEngagement).forEach((feat) => {
-    userProfile[`feature_engagement_${feat}`] = featureEngagement(feat);
+    userProfile[`feature_engagement_${feat}`] = featureEngagement[feat];
   });
 
   return userProfile;
