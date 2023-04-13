@@ -16,7 +16,7 @@ const promotions = [
   "Lens Upgrade",
   "Beat the Heat",
   "Shadazzle VIP",
-  "Share Your Style"
+  "Share Your Style",
 ];
 
 const events = [
@@ -24,7 +24,7 @@ const events = [
   "Coachella",
   "CES",
   "Boston Marathon",
-  "SXSW"
+  "SXSW",
 ];
 
 let idCounter = 1;
@@ -34,25 +34,33 @@ function generateProfile(id) {
     id = idCounter++;
   }
   let purchases = [];
-  const numPurchases = faker.datatype.number({min: 0, max: Math.floor(products.length / 2)})
+  const numPurchases = faker.datatype.number({
+    min: 0,
+    max: Math.floor(products.length / 2),
+  });
   for (const product of faker.helpers.arrayElements(products, numPurchases)) {
     purchases.push({
       product_id: product,
-      price: faker.datatype.float({min: 100, max:300}),
-      date: faker.date.recent(500)
+      price: faker.datatype.float({ min: 100, max: 300 }),
+      date: faker.date.recent(500),
     });
   }
 
   const minLTV = purchases.reduce((prev, next) => {
-    return prev + next.price
+    return prev + next.price;
   }, 0);
 
-  const numEvents = faker.datatype.number({min: 0, max: Math.floor(events.length / 2)});
+  const numEvents = faker.datatype.number({
+    min: 0,
+    max: Math.floor(events.length / 2),
+  });
   const attendEvents = faker.helpers.arrayElements(events, numEvents);
 
-  const numPromotions = faker.datatype.number({min: 0, max: Math.floor(promotions.length / 2)});
+  const numPromotions = faker.datatype.number({
+    min: 0,
+    max: Math.floor(promotions.length / 2),
+  });
   const promotionsUsed = faker.helpers.arrayElements(promotions, numPromotions);
-
 
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
@@ -62,51 +70,40 @@ function generateProfile(id) {
     last_name: lastName,
     email: faker.internet.email(firstName, lastName).toLowerCase(),
     phone_number: faker.phone.number("+1##########"),
-    address: {
-      street: faker.address.streetAddress(),
-      city: faker.address.city(),
-      state: faker.address.stateAbbr(),
-      zip_code: faker.address.zipCode(),
-    },
-    recent_purchases: purchases,
-    website_behavior: {
-      pages_viewed: faker.datatype.number({ min: 0, max: 20 }),
-      time_spent: faker.datatype.number({ min: 0, max: 400 }),
-      last_visit: faker.date.recent()
-    },
-    social_media_engagement: {
-      facebook: {
-        likes: faker.datatype.number({ min: 0, max: 10 }),
-        comments: faker.datatype.number({ min: 0, max: 5 }),
-        shares: faker.datatype.number({ min: 0, max: 5 }),
-      },
-      instagram: {
-        likes: faker.datatype.number({ min: 0, max: 100 }),
-        comments: faker.datatype.number({ min: 0, max: 10 }),
-        shares: faker.datatype.number({ min: 0, max: 5 }),
-      },
-      twitter: {
-        likes: faker.datatype.number({ min: 0, max: 10 }),
-        comments: faker.datatype.number({ min: 0, max: 10 }),
-        shares: faker.datatype.number({ min: 0, max: 5 }),
-      },
-    },
-    customer_service_interactions: {
-      number_of_interactions: faker.datatype.number({ min: 0, max: 10 }),
-      last_interaction: faker.date.recent(),
-    },
-    email_marketing: {
-      open_rate: faker.datatype.number({min: 0, max: 100}),
-      click_through_rate: faker.datatype.number({min: 0, max: 100}),
-      last_email: faker.date.recent(),
-    },
-    events_and_promotions: {
-      attended_events: attendEvents,
-      promotions_used: promotionsUsed,
-    },
-    propensity_to_buy: faker.datatype.float({min: 0, max: 1, precision: 0.01}),
-    lifetime_value: faker.datatype.float({min: minLTV, max: minLTV + 600}),
-    customer_acquisition_cost: faker.datatype.float({min: 10, max: 300}),
+    city: faker.address.city(),
+    state: faker.address.stateAbbr(),
+    total_products_purchased: numPurchases,
+    most_recent_purchase: purchases[0] ? purchases[0].product_id : undefined,
+    web_pages_viewed: faker.datatype.number({ min: 0, max: 20 }),
+    web_time_spent: faker.datatype.number({ min: 0, max: 400 }),
+    web_last_visit: faker.date.recent(),
+    facebook_likes: faker.datatype.number({ min: 0, max: 10 }),
+    facebook_comments: faker.datatype.number({ min: 0, max: 5 }),
+    facebook_shares: faker.datatype.number({ min: 0, max: 5 }),
+    instagram_likes: faker.datatype.number({ min: 0, max: 100 }),
+    instagram_comments: faker.datatype.number({ min: 0, max: 10 }),
+    instagram_shares: faker.datatype.number({ min: 0, max: 5 }),
+    twitter_likes: faker.datatype.number({ min: 0, max: 10 }),
+    twitter_comments: faker.datatype.number({ min: 0, max: 10 }),
+    twitter_shares: faker.datatype.number({ min: 0, max: 5 }),
+    cust_support_number_of_interactions: faker.datatype.number({
+      min: 0,
+      max: 10,
+    }),
+    cust_last_interaction: faker.date.recent(),
+    csat: faker.datatype.float({ min: 0, max: 1, precision: 0.01 }),
+    emails_opened_last_30_days: faker.datatype.number({ min: 0, max: 10 }),
+    email_open_rate: faker.datatype.float({ min: 0, max: 1, precision: 0.01 }),
+    email_click_through_rate: faker.datatype.number({ min: 0, max: 100 }),
+    attended_events: attendEvents,
+    promotions_used: promotionsUsed,
+    propensity_to_buy: faker.datatype.float({
+      min: 0,
+      max: 1,
+      precision: 0.01,
+    }),
+    lifetime_value: faker.datatype.float({ min: minLTV, max: minLTV + 600 }),
+    customer_acquisition_cost: faker.datatype.float({ min: 10, max: 300 }),
   };
   return profile;
 }
@@ -114,12 +111,12 @@ function generateProfile(id) {
 function generateProfiles(amount) {
   const profiles = [];
   for (let i = 0; i < amount; i++) {
-    profiles.push(generateProfile(i+1));
+    profiles.push(generateProfile(i + 1));
   }
   return profiles;
 }
 
-export default {generateProfiles};
+export default { generateProfiles };
 
 /**
 {

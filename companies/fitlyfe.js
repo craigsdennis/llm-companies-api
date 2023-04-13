@@ -74,92 +74,94 @@ Propensity to buy to help identify users who may be interested in premium featur
 //   fat: faker.datatype.number({ min: 30, max: 80 }),
 // },
 
-
 ////////
 
 import { faker } from "@faker-js/faker";
 import { chooseRandomAmount } from "../utils.js";
 
-  const fitnessGoals = [
-    "lose_weight",
-    "build_muscle",
-    "improve_endurance",
-    "tone_up",
-    "increase_flexibility",
-    "reduce_stress",
-    "improve_balance",
-    "enhance_sports_performance",
-    "gain_strength",
-    "boost_metabolism",
-    "improve_sleep_quality",
-    "reduce_inflammation",
-    "manage_chronic_conditions",
-  ];
+const fitnessGoals = [
+  "lose_weight",
+  "build_muscle",
+  "improve_endurance",
+  "tone_up",
+  "increase_flexibility",
+  "reduce_stress",
+  "improve_balance",
+  "enhance_sports_performance",
+  "gain_strength",
+  "boost_metabolism",
+  "improve_sleep_quality",
+  "reduce_inflammation",
+  "manage_chronic_conditions",
+];
 
-  const featureEngagementOptions = [
-    "workout_plans",
-    "nutrition_guidance",
-    "community",
-    "progress_tracking",
-    "one-on-one_coaching",
-    "challenges",
-    "video_workouts",
-    "wellness_articles",
-    "meal_plans",
-    "mindfulness_exercises",
-    "exercise_library",
-    "social_sharing",
-  ];
+const featureEngagementOptions = [
+  "workout_plans",
+  "nutrition_guidance",
+  "community",
+  "progress_tracking",
+  "one-on-one_coaching",
+  "challenges",
+  "video_workouts",
+  "wellness_articles",
+  "meal_plans",
+  "mindfulness_exercises",
+  "exercise_library",
+  "social_sharing",
+];
 
-  const workoutTypes = [
-    "cardio",
-    "strength_training",
-    "yoga",
-    "pilates",
-    "barre",
-    "cycling",
-    "running",
-    "swimming",
-    "weight_lifting",
-    "boxing",
-    "kickboxing",
-    "dance",
-    "calisthenics",
-    "stretching",
-    "mind-body_fusion"
-  ];
+const workoutTypes = [
+  "cardio",
+  "strength_training",
+  "yoga",
+  "pilates",
+  "barre",
+  "cycling",
+  "running",
+  "swimming",
+  "weight_lifting",
+  "boxing",
+  "kickboxing",
+  "dance",
+  "calisthenics",
+  "stretching",
+  "mind-body_fusion",
+];
 
-  const campaignOptions = [
-    "FitlyfeLaunch",
-    "NewYearNewYou",
-    "SummerBodyChallenge",
-    "FitForLife",
-    "HealthyHolidays",
-    "BackToSchoolFitness",
-    "FitnessResolution",
-    "GetActiveNow",
-    "FitlyfeVIP",
-    "FitlyfeReferral",
-    "FitlyfeGiveaway",
-    "FitlyfePartner",
-  ];
+const campaignOptions = [
+  "FitlyfeLaunch",
+  "NewYearNewYou",
+  "SummerBodyChallenge",
+  "FitForLife",
+  "HealthyHolidays",
+  "BackToSchoolFitness",
+  "FitnessResolution",
+  "GetActiveNow",
+  "FitlyfeVIP",
+  "FitlyfeReferral",
+  "FitlyfeGiveaway",
+  "FitlyfePartner",
+];
 
 function generateProfile(id) {
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
-  const recentWorkoutTypes = chooseRandomAmount(workoutTypes, .4);
-  const recentWorkouts = recentWorkoutTypes.map((type) => {
-    return {
-      type,
-      duration: faker.datatype.number({ min: 10, max: 60 }),
-      intensity: faker.helpers.arrayElement(["low", "moderate", "high"]),
-      date: faker.date.recent(60)
-    }
-  }).sort((a, b) => a.date > b.date ? -1 : 1);
+  const recentWorkoutTypes = chooseRandomAmount(workoutTypes, 0.4);
+  const recentWorkouts = recentWorkoutTypes
+    .map((type) => {
+      return {
+        type,
+        duration: faker.datatype.number({ min: 10, max: 60 }),
+        intensity: faker.helpers.arrayElement(["low", "moderate", "high"]),
+        date: faker.date.recent(60),
+      };
+    })
+    .sort((a, b) => (a.date > b.date ? -1 : 1));
   const featureEngagement = featureEngagementOptions.reduce((prev, next) => {
-    prev[next] = faker.datatype.number({min: 0, max: 7})
+    prev[next] = faker.datatype.number({ min: 0, max: 7 });
     return prev;
   }, {});
+  const latestWorkout = recentWorkoutTypes.length;
 
   const userProfile = {
     id,
@@ -167,45 +169,57 @@ function generateProfile(id) {
     last_name: faker.name.lastName(),
     email: faker.internet.email(firstName, lastName),
     phone: faker.phone.number("+1##########"),
-    gender: faker.helpers.arrayElement(["male", "female", "non-binary"]),
+    gender: faker.helpers.arrayElement([
+      "male",
+      "female",
+      "non-binary",
+      "prefer-not-to-specify",
+    ]),
     age: faker.datatype.number({ min: 15, max: 70 }),
-    location: {
-      city: faker.address.city(),
-      state: faker.address.stateAbbr(),
-      country: faker.address.country(),
-    },
-    fitness_goals: chooseRandomAmount(fitnessGoals, .3),
-    recent_workout_history: recentWorkouts,
-    wearable_data: {
-      steps: faker.datatype.number({ min: 100, max: 15000 }),
-      calories_burned: faker.datatype.number({ min: 100, max: 1000 }),
-      heart_rate: faker.datatype.number({ min: 60, max: 220 }),
-      submitted: faker.date.recent(),
-    },
-    engagement: {
-      last_login: faker.date.recent(100),
-      session_duration: faker.datatype.number({ min: 10, max: 60 }),
-      feature_engagement: featureEngagement,
-    },
+    city: faker.address.city(),
+    state: faker.address.stateAbbr(),
+    fitness_goals: chooseRandomAmount(fitnessGoals, 0.3),
+    recent_workout_count: recentWorkouts.length,
+    latest_workout_type: latestWorkout.type,
+    latest_workout_duration: latestWorkout.duration,
+    latest_workout_intensity: latestWorkout.intensity,
+    latest_workout_date: latestWorkout.date,
+    wearable_steps: faker.datatype.number({ min: 100, max: 15000 }),
+    wearable_calories_burned: faker.datatype.number({ min: 100, max: 1000 }),
+    wearable_heart_rate: faker.datatype.number({ min: 60, max: 220 }),
+    wearable_submitted: faker.date.recent(),
+    last_login: faker.date.recent(100),
+    session_duration: faker.datatype.number({ min: 10, max: 60 }),
     lifetime_value: faker.datatype.number({ min: 100, max: 1000 }),
-    customer_acquisition: {
-      source: faker.helpers.arrayElement(["social_media", "email", "referral"]),
-      campaign: faker.helpers.arrayElement(campaignOptions),
-      cost: faker.datatype.number({ min: 10, max: 200 })
-    },
-    propensity_to_buy: faker.datatype.number({ min: 0, max: 1, precision: 0.01 }),
+    customer_acquisition_source: faker.helpers.arrayElement([
+      "social_media",
+      "email",
+      "referral",
+    ]),
+    customer_acquisition_campaign: faker.helpers.arrayElement(campaignOptions),
+    customer_acquisition_cost: faker.datatype.number({ min: 10, max: 200 }),
+    propensity_to_buy: faker.datatype.number({
+      min: 0,
+      max: 1,
+      precision: 0.01,
+    }),
+    emails_opened_last_30_days: faker.datatype.number({ min: 0, max: 10 }),
   };
+
+  // Expose the features at a top level
+  Object.keys(featureEngagement).forEach((feat) => {
+    userProfile[`feature_engagement_${feat}`] = featureEngagement(feat);
+  });
 
   return userProfile;
 }
 
-
 function generateProfiles(amount) {
   const profiles = [];
   for (let i = 0; i < amount; i++) {
-    profiles.push(generateProfile(i+1));
+    profiles.push(generateProfile(i + 1));
   }
   return profiles;
 }
 
-export default {generateProfiles}
+export default { generateProfiles };

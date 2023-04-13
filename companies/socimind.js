@@ -77,7 +77,8 @@ function generateProfile(id) {
     last_name: lastName,
     email: faker.internet.email(firstName, lastName),
     birthdate: faker.date.birthdate({ min: 13, max: 70, mode: "age" }),
-    location: faker.address.city(),
+    city: faker.address.city(),
+    state: faker.address.state(),
     language: faker.helpers.arrayElement([
       "English",
       "Spanish",
@@ -119,10 +120,9 @@ function generateProfile(id) {
 function generateProfiles(amount) {
   const profiles = [];
   for (let i = 0; i < amount; i++) {
-    profiles.push(generateProfile(i+1));
+    profiles.push(generateProfile(i + 1));
   }
   return profiles;
 }
-
 
 export default { generateProfiles };
