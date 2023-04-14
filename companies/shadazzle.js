@@ -1,4 +1,7 @@
 import { faker } from "@faker-js/faker";
+import { generateApiDoc } from "../utils.js";
+
+const companyName = "shadazzle";
 
 const products = [
   "SunSync",
@@ -116,7 +119,10 @@ function generateProfiles(amount) {
   return profiles;
 }
 
-export default { generateProfiles };
+export default {
+  generateProfiles,
+  generateDocs: () => generateApiDoc("shadazzle", generateProfile),
+};
 
 /**
 {

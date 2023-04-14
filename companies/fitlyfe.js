@@ -77,7 +77,7 @@ Propensity to buy to help identify users who may be interested in premium featur
 ////////
 
 import { faker } from "@faker-js/faker";
-import { chooseRandomAmount } from "../utils.js";
+import { chooseRandomAmount, generateApiDoc } from "../utils.js";
 
 const fitnessGoals = [
   "lose_weight",
@@ -161,7 +161,7 @@ function generateProfile(id) {
     prev[next] = faker.datatype.number({ min: 0, max: 7 });
     return prev;
   }, {});
-  const latestWorkout = recentWorkoutTypes.length;
+  const latestWorkout = recentWorkouts.length > 0 ? recentWorkouts[0] : {};
 
   const userProfile = {
     id,
@@ -222,4 +222,7 @@ function generateProfiles(amount) {
   return profiles;
 }
 
-export default { generateProfiles };
+export default { 
+  generateProfiles, 
+  generateDocs: () => generateApiDoc("fitlyfe", generateProfile) 
+ };

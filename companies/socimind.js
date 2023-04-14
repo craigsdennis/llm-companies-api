@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { chooseRandomAmount } from "../utils.js";
+import { chooseRandomAmount, generateApiDoc } from "../utils.js";
 
 const interests = [
   "Fashion",
@@ -125,4 +125,7 @@ function generateProfiles(amount) {
   return profiles;
 }
 
-export default { generateProfiles };
+export default {
+  generateProfiles,
+  generateDocs: () => generateApiDoc("shadazzle", generateProfile),
+};
