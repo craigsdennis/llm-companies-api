@@ -6,7 +6,7 @@ function generateApiDoc(company, profileFn) {
   const keyDefinitions = [];
   const requiredKeys = ["id", "email"];
   Object.keys(profile).forEach((key) => {
-    if (requiredKeys.includes("id")) return;
+    if (requiredKeys.includes(key)) return;
     // Determine the type
     const value = profile[key];
     let strType = typeof value;
