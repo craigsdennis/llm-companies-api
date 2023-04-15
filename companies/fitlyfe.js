@@ -165,8 +165,8 @@ function generateProfile(id) {
 
   const userProfile = {
     id,
-    first_name: faker.name.firstName(),
-    last_name: faker.name.lastName(),
+    first_name,
+    last_name,
     email: faker.internet.email(firstName, lastName),
     phone: faker.phone.number("+1##########"),
     gender: faker.helpers.arrayElement([

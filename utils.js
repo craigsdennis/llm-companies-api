@@ -3,7 +3,10 @@ import { stripIndents } from "common-tags";
 
 function generateApiDoc(company, profileFn) {
   const profile = profileFn(0);
-  const keyDefinitions = Object.keys(profile).map((key) => {
+  const keyDefinitions = [];
+  const requiredKeys = ["id", "email"];
+  Object.keys(profile).forEach((key) => {
+    if (requiredKeys.includes("id")) return;
     // Determine the type
     const value = profile[key];
     let strType = typeof value;
@@ -14,7 +17,7 @@ function generateApiDoc(company, profileFn) {
         strType = "datetime";
       }
     }
-    return `${key} | ${strType} | optional`;
+    keyDefinitions.push(`${key} | ${strType} | optional`);
   });
   return stripIndents`
   Endpoint: https://llm-companies.cyclic.app/api/${company}
@@ -29,6 +32,7 @@ function generateApiDoc(company, profileFn) {
 
   Response schema (JSON object):
   id | integer | required
+  email | string | required
   ${keyDefinitions.join("\n")}
 
   Use _limit: 1
