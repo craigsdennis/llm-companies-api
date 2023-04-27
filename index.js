@@ -30,7 +30,7 @@ server.use("/api/socimind", routerSocimind);
 const routerSecret = jsonServer.router({
   secret: {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    shhhh: "Don't tell anyone",
+    shhhh: "LLM LGTM! Don't tell anyone",
   },
 });
 server.use("/api/", routerSecret);
