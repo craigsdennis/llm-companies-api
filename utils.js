@@ -19,21 +19,21 @@ function generateApiDoc(company, profileFn) {
     }
     keyDefinitions.push(`${key} | ${strType} | optional`);
   });
-  return stripIndents`
+  return `
   Endpoint: https://llm-companies.cyclic.app/api/${company}
   GET /profiles
 
   This API is for searching user profiles
 
   Query parameters table:
-  id | integer | Retrieves the unique identifier for a specific user. A valid vaule should be an integer between 1 and 1000 | optional
-  email | string | The email address of a specific user. | optional
-  _limit | integer | The maximum number of profiles per page. A valid value should be an integer between 1 and 10 (inclusive). default: 3 | optional
+  \tid | integer | Retrieves the unique identifier for a specific user. A valid vaule should be an integer between 1 and 1000 | optional
+  \temail | string | The email address of a specific user. | optional
+  \t_limit | integer | The maximum number of profiles per page. A valid value should be an integer between 1 and 10 (inclusive). default: 3 | optional
 
-  Response schema (JSON object):
-  id | integer | required
-  email | string | required
-  ${keyDefinitions.join("\n")}
+  Response schema:
+  \tid | integer | required
+  \temail | string | required
+  ${keyDefinitions.join("\n\t")}
 
   Use _limit: 1
   `;
