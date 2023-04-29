@@ -33,7 +33,7 @@ function generateApiDoc(company, profileFn) {
   Response schema:
   \tid | integer | required
   \temail | string | required
-  ${keyDefinitions.join("\n\t")}
+  \t${keyDefinitions.join("\n\t")}
 
   Use _limit: 1
   `;
